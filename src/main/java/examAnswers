@@ -1,0 +1,63 @@
+
+
+
+class CarInfo {
+  private String id;
+  private boolean privateCar;
+  private int speed;
+  public boolean illegal(int maxSpeed) {
+    if (this.speed > maxSpeed) {
+      return true;
+    }
+    return privateCar;
+  }
+}
+
+
+class CameraInfo {
+    private int city;
+    private int maxSpeed;
+    private CarInfo[] cars;
+
+    public boolean allGood() {
+        for (int i = 0; i < cars.length; i++) {
+            if (cars[i].illegal(maxSpeed)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int legalCities(CameraInfo[] cameras) {
+        int count = 0;
+        boolean noViolations;
+
+        for (int i = 0; i < cameras.length; i++) {
+            noViolations = true;
+
+            boolean beenFound = false;
+            for (int j = 0; j < i; j++) {
+                if (cameras[j].getCity() == cameras[i].getCity()) {
+                    beenFound = true;
+                }
+            }
+
+            if (!beenFound) {
+                for (int k = 0; k < cameras.length; k++) {
+                    if (cameras[k].getCity() == cameras[i].getCity()) {
+                        if (!cameras[k].allGood()) {
+                            noViolations = false;
+                        }
+                    }
+                }
+
+                if (noViolations) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+}
